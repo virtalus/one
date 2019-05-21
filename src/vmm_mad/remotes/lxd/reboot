@@ -34,5 +34,11 @@ container = Container.get(vm_name, container.config['user.xml'], client)
 # ------------------------------------------------------------------------------
 # Stop the container, start it
 # ------------------------------------------------------------------------------
-container.check_stop
-container.start
+case container.config['user.one_state']
+when 'STOPPED'
+    container.start
+else
+    container.check_stop
+    container.config['user.one_state'] = 'STOPPED'
+    container.update
+end

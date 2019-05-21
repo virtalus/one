@@ -389,32 +389,32 @@ class ExecDriver < VirtualMachineDriver
         end
 
         steps.concat([
-            # Execute pre-boot networking setup
-            {
-                :driver   => :vnm,
-                :action   => :pre
-            },
-            # Boot the Virtual Machine
-            {
-                :driver       => :vmm,
-                :action       => :deploy,
-                :parameters   => [dfile, :host],
-                :stdin        => domain
-            },
-            # Execute post-boot networking setup
-            {
-                :driver       => :vnm,
-                :action       => :post,
-                :parameters   => [:deploy_info],
-                :fail_actions => [
-                    {
-                        :driver     => :vmm,
-                        :action     => :cancel,
-                        :parameters => [:deploy_info, :host]
-                    }
-                ]
-            }
-        ])
+                         # Execute pre-boot networking setup
+                         {
+                             :driver   => :vnm,
+                             :action   => :pre
+                         },
+                         # Boot the Virtual Machine
+                         {
+                             :driver       => :vmm,
+                             :action       => :deploy,
+                             :parameters   => [dfile, :host],
+                             :stdin        => domain
+                         },
+                         # Execute post-boot networking setup
+                         {
+                             :driver       => :vnm,
+                             :action       => :post,
+                             :parameters   => [:deploy_info],
+                             :fail_actions => [
+                                 {
+                                     :driver     => :vmm,
+                                     :action     => :cancel,
+                                     :parameters => [:deploy_info, :host]
+                                 }
+                             ]
+                         }
+                     ])
 
         action.run(steps)
     end
@@ -478,31 +478,31 @@ class ExecDriver < VirtualMachineDriver
         action = VmmAction.new(self, id, :restore, drv_message)
 
         steps.concat([
-            # Execute pre-boot networking setup
-            {
-                :driver     => :vnm,
-                :action     => :pre
-            },
-            # Restore the Virtual Machine from checkpoint
-            {
-                :driver     => :vmm,
-                :action     => :restore,
-                :parameters => [:checkpoint_file, :host, :deploy_id]
-            },
-            # Execute post-boot networking setup
-            {
-                :driver       => :vnm,
-                :action       => :post,
-                :parameters   => [:deploy_id],
-                :fail_actions => [
-                    {
-                        :driver     => :vmm,
-                        :action     => :cancel,
-                        :parameters => [:deploy_id, :host]
-                    }
-                ]
-            }
-        ])
+                         # Execute pre-boot networking setup
+                         {
+                             :driver     => :vnm,
+                             :action     => :pre
+                         },
+                         # Restore the Virtual Machine from checkpoint
+                         {
+                             :driver     => :vmm,
+                             :action     => :restore,
+                             :parameters => [:checkpoint_file, :host, :deploy_id]
+                         },
+                         # Execute post-boot networking setup
+                         {
+                             :driver       => :vnm,
+                             :action       => :post,
+                             :parameters   => [:deploy_id],
+                             :fail_actions => [
+                                 {
+                                     :driver     => :vmm,
+                                     :action     => :cancel,
+                                     :parameters => [:deploy_id, :host]
+                                 }
+                             ]
+                         }
+                     ])
 
         action.run(steps)
     end
@@ -592,8 +592,44 @@ class ExecDriver < VirtualMachineDriver
     #
     # REBOOT action, reboots a running VM
     #
+    # def reboot(id, drv_message)
+    #     restart(id, drv_message, :reboot)
+    # end
+
     def reboot(id, drv_message)
-        restart(id, drv_message, :reboot)
+        action = VmmAction.new(self, id, :reboot, drv_message)
+
+        reboot_step = {
+            :driver => :vmm,
+                :action       => :reboot,
+                :parameters   => [:deploy_id, :host]
+        }
+        steps = [
+            reboot_step,
+            {
+                :driver   => :vnm,
+                :action   => :clean
+            },
+            {
+                :driver   => :vnm,
+                :action   => :pre
+            },
+            reboot_step,
+            {
+                :driver       => :vnm,
+                :action       => :post,
+                :parameters   => [:deploy_info],
+                :fail_actions => [
+                    {
+                        :driver     => :vmm,
+                        :action     => :cancel,
+                        :parameters => [:deploy_info, :host]
+                    }
+                ]
+            }
+        ]
+
+        action.run(steps)
     end
 
     #
