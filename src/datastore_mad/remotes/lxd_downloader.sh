@@ -41,6 +41,7 @@ PKG_DEB="curl dbus openssh-server"
 PKG_RPM="openssh-server"
 PKG_CENTOS6="epel-release $PKG_RPM"
 PKG_FEDORA="network-scripts $PKG_RPM"
+PKG_SUSE="$PKG_APK"
 
 #Default DNS server to download the packages
 DNS_SERVER="8.8.8.8"
@@ -201,6 +202,19 @@ yum install /root/context.rpm -y > /dev/null 2>&1
 rm /root/context.rpm
 
 rm /dev/random /dev/urandom
+EOC
+)
+    ;;
+*opensuse*)
+    terminal="/bin/bash"
+    commands=$(cat <<EOC
+echo "nameserver $DNS_SERVER" > /etc/resolv.conf
+
+zypper install --no-confirm $PKG_SUSE > /dev/null 2>&1
+
+$CURL $CONTEXT_URL/v$selected_tag/one-context-$selected_tag-1.suse.noarch.rpm -Lsfo /root/context.rpm
+zypper --no-gpg-check install -y /root/context.rpm > /dev/null 2>&1
+rm /root/context.rpm
 EOC
 )
     ;;
