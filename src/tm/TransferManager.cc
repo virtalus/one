@@ -423,14 +423,21 @@ int TransferManager::prolog_transfer_command(
         // <CLONE|LN> tm_mad fe:SOURCE host:remote_system_ds/disk.i vmid dsid
         if (clon == "YES")
         {
-            xfr << "CLONE ";
+            xfr << "CLONE";
         }
         else
         {
-            xfr << "LN ";
+            xfr << "LN";
         }
 
-        xfr << tm_mad << " ";
+        std::string tsys = disk->get_tm_mad_system();
+
+        if (!tsys.empty())
+        {
+            xfr << "." << tsys;
+        }
+
+        xfr << " " << tm_mad << " ";
 
         if ( source.find(":") == string::npos ) //Regular file
         {
