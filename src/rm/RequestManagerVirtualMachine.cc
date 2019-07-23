@@ -3057,6 +3057,8 @@ void VirtualMachineUpdateConf::request_execute(
     VirtualMachine * vm;
     VirtualMachineTemplate tmpl;
 
+    NebulaLog::log("VMU", Log::DEBUG, "Update conf started");
+
     // -------------------------------------------------------------------------
     // Parse template
     // -------------------------------------------------------------------------
@@ -3108,13 +3110,30 @@ void VirtualMachineUpdateConf::request_execute(
         }
     }
 
-    if ( vm->updateconf(tmpl, att.resp_msg) != 0 )
+    if (vm->get_state() == VirtualMachine::VmState::ACTIVE &&
+        vm->get_lcm_state() == VirtualMachine::LcmState::RUNNING)
+    {
+        vm->unlock();
+        NebulaLog::log("VMU", Log::DEBUG, "Update conf starting live update");
+        auto dm = Nebula::instance().get_dm();
+        if (dm->live_updateconf(id, att, att.resp_msg) != 0)
+        {
+            NebulaLog::log("VMU", Log::DEBUG, "Update conf reporting failure");
+            failure_response(INTERNAL, att);
+
+            return;
+        }
+        vm = static_cast<VirtualMachinePool *>(pool)->get(id);
+    }
+    else if ( vm->updateconf(tmpl, att.resp_msg) != 0 )
     {
         failure_response(INTERNAL, att);
 
         vm->unlock();
         return;
     }
+
+    NebulaLog::log("VMU", Log::DEBUG, "Update conf after change was applied");
 
     /* ---------------------------------------------------------------------- */
     /* Update PORT if a new GRAPHICS section has been added & VM is deployed. */

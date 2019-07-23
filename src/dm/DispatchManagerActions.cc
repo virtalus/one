@@ -2338,3 +2338,72 @@ int DispatchManager::disk_resize(int vid, int did, long long new_size,
 
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
+
+int DispatchManager::live_updateconf(int vid, const RequestAttributes& ra, string& error_str)
+{
+    ostringstream oss;
+
+    NebulaLog::log("DiM", Log::DEBUG, "live_updateconf started");
+    VirtualMachine * vm = vmpool->get(vid);
+
+    VirtualMachine::VmState  state  = vm->get_state();
+    VirtualMachine::LcmState lstate = vm->get_lcm_state();
+
+    // todo Right now handle only ACTIVE and RUNNING, think about other states later
+    if (state != VirtualMachine::ACTIVE || lstate != VirtualMachine::RUNNING)
+    {
+        oss << "Could not perform live updateconf for " << vid << ", wrong state "
+            << vm->state_str() << ".";
+        error_str = oss.str();
+
+        NebulaLog::log("DiM", Log::ERROR, error_str);
+
+        vm->unlock();
+
+        return -1;
+    }
+
+    vm->set_vm_info();  // ?? Do we need to set info to history?
+
+    // todo generate context
+    //      VirtualMachine::generate_context
+    // // Set the VM info in the history before the disk is resized
+
+    // Set proper VM state
+    vm->set_state(VirtualMachine::HOTPLUG); // Probably special state HOTPLUG_UPDATECONF will be needed
+
+    vm->set_resched(false);
+
+    // Update context??
+
+    auto the_time = time(0);
+
+    // Close current history record
+    vm->set_running_etime(the_time);
+    vm->set_etime(the_time);
+    vm->set_action(History::UPDATECONF_ACTION, ra.uid, ra.gid, ra.req_id);
+    vmpool->update_history(vm);
+
+    // Open a new history record
+    vm->cp_history();
+    vm->set_stime(the_time);
+    vm->set_running_stime(the_time);
+    vmpool->insert_history(vm);
+    // Trigger new UPDATE CONF action
+    vmm->trigger(VMMAction::UPDATE_CONF, vid);
+
+    vmpool->update(vm);
+    vmpool->update_search(vm);
+
+    // oss << "Live updateconf not implemented.";
+    // error_str = oss.str();
+    // //error_str = "Live updateconf not implemented.";
+    // NebulaLog::log("DiM", Log::ERROR, error_str);
+
+    vm->unlock();
+
+    return 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
