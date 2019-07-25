@@ -72,7 +72,7 @@ define(function(require) {
     });
     $(".support_not_connected > button").on("click", function(e){
       e.stopPropagation();
-      window.open("http://opennebula.systems/opennebula-support/", "_blank");
+      window.open("https://virtalus.com", "_blank");
     });
     if(config && config.user_config && config.user_config.default_view === "admin"){
       $("#support_credentials_form", context).on("submit", function(){
