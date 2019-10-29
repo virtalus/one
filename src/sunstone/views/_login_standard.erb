@@ -1,24 +1,52 @@
-<div class="border columns small-6 small-centered small-offset-3 text-center" id="login">
-  <div class="content">
-    <label class="text-left">
-      Username
-      <input type="text" size="15" name="username" id="username" class="box"/>
-    </label>
-    <label class="text-left">
-      Password
-      <input type="password" size="15" name="password" id="password" class="box"/>
-    </label>
-    <div class="row buttons small-collapse">
-      <div class="columns small-6 text-left">
-        <% if $conf[:keep_me_logged] %>
-          <input type="checkbox" id="check_remember" />
-          <label id="label_remember" for="check_remember">Keep me logged in</label>
-        <% end %>
-      </div>
-      <div class="columns small-6 text-right">
-        <img src="images/ajax-loader.gif" alt="retrieving" id="login_spinner" />
-        <button type="submit" id="login_btn"></button>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">    
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="dist/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <title>HyperCX Bento</title>
+  </head>
+   <body>
+        <!-- Menu -->
+<br>
+<div id='cssmenu'>
+<ul>
+   <li><img src="https://virtalus.com/wp-content/themes/virtalus/assets/img/logo/logowhite.png" style="max-width: 35px; max-height: 35px; margin-right: 1px; display: inline;" ></li>
+   <li><a href='https://virtalus.com' target="_blank">Home</a></li>
+   <li><a href='https://docs.virtalus.com' target="_blank">Support</a></li>
+   <li><a href='https://virtalus.zendesk.com' target="_blank">Ticketing</a></li>
+   <li><a href='https://virtalus.com/contact/' target="_blank">Contact</a></li>
+</ul>
 </div>
+        <!-- end Menu -->
+	<!-- Logo -->
+		      <div id="logo_sunstone" style="
+			background: url(<%=$views_config.logo%>) no-repeat center;
+			display:block;
+			background-size: 300px;">
+		      </div>		
+        <!-- end Logo -->
+       <!-- Login -->
+     <div class="container">
+      <div id="login">
+        <form method="post" id="login_form">
+          <fieldset class="clearfix">
+            <p><span class="fontawesome-user"></span><input type="text" value="Username" id="username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
+            <p><span class="fontawesome-lock"></span><input type="password"  value="Password" id="password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+            <p><input type="submit" id="login_btn1" value="Sign In"></p>
+            <p><img src="images/ajax-loader.gif" alt="retrieving" id="login_spinner" /></p>
+          </fieldset>
+        </form>
+      </div>
+
+<div id="error_box" class="alert alert-error" style="display: none">
+  <a class="close" data-dismiss="alert" onclick="this.parentElement.style.display='none';">&times;</a>
+  Incorrect Username or Password
+</div>
+    
+    </div>   
+    <!-- end login --> 
+  </body>
+</html>
+
