@@ -1423,7 +1423,6 @@ MARKETPLACE_DRIVER_VIRTALUS_SCRIPTS="src/market_mad/remotes/virtalus/import \
             src/market_mad/remotes/virtalus/delete \
             src/market_mad/remotes/virtalus/monitor"
 
-
 #-------------------------------------------------------------------------------
 # Migration scripts for onedb command, to be installed under $LIB_LOCATION
 #-------------------------------------------------------------------------------
