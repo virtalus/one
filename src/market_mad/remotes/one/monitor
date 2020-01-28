@@ -80,6 +80,9 @@ class OneMarket
 
             tmpl = ''
 
+            increment = 1
+            incremented_version = app['version'].split('.')[0..-2].join('.') + '.' + (app['version'].split('.').last.to_i + increment).to_s
+
             app['type'] = 'IMAGE' unless app['type']
 
             print_var(tmpl, 'NAME',        app['name'])
@@ -124,7 +127,10 @@ class OneMarket
                     parsed_template["CONTEXT"]["PASSWORD"] = "$ROOT_PASSWORD"
                     parsed_template["CONTEXT"]["ROOT_PASSWORD"] = "$ROOT_PASSWORD"
                     parsed_template["SCHED_REQUIREMENTS"] = 'CLUSTER=\"KVM\"'
-                    parsed_template["USER_INPUTS"] = "O|password|Optional - Password for VM's root user. Not recommended, try using public keys."
+                     if !parsed_template.key?("USER_INPUTS")
+                       parsed_template["USER_INPUTS"] = Hash.new
+                       parsed_template["USER_INPUTS"]["ROOT_PASSWORD"] = "O|password|Password for VM root user. Not recommended, try using public keys"
+                     end
                     vmtmpl64 = template_to_str(
                         parsed_template
                     )
