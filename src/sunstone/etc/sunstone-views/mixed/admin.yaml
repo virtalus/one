@@ -10,11 +10,11 @@ enabled_tabs:
     - instances-top-tab
     - vms-tab
     #- oneflow-services-tab
-    #- vrouters-tab
+    - vrouters-tab
     - templates-top-tab
     - templates-tab
     #- oneflow-templates-tab
-    #- vrouter-templates-tab
+    - vrouter-templates-tab
     - storage-top-tab
     - datastores-tab
     - images-tab
