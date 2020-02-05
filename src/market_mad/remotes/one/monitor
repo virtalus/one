@@ -28,6 +28,7 @@ class OneMarket
     ONE_MARKET_URL = 'https://marketplace.opennebula.systems/'
     AGENT          = 'Market Driver'
     VERSION        = File.dirname(__FILE__) + '/../../VERSION'
+    EXCLUDE        = ["EC2", "Tumbleweed", "Vrouter", "Docker", "vCenter", "Service"]
 
     def initialize(url)
         @url   = url || ONE_MARKET_URL
@@ -75,74 +76,79 @@ class OneMarket
         appstr  = ''
 
         applist['appliances'].each do |app|
-            id     = app['_id']['$oid']
-            source = "#{@url}/appliance/#{id}/download/0"
+            go = true
+            EXCLUDE.each {|element| go = false if app['name'].include? element }
 
-            tmpl = ''
+            if go
+                id     = app['_id']['$oid']
+                source = "#{@url}/appliance/#{id}/download/0"
 
-            increment = 1
-            incremented_version = app['version'].split('.')[0..-2].join('.') + '.' + (app['version'].split('.').last.to_i + increment).to_s
+                tmpl = ''
 
-            app['type'] = 'IMAGE' unless app['type']
+                increment = 1
+                incremented_version = app['version'].split('.')[0..-2].join('.') + '.' + (app['version'].split('.').last.to_i + increment).to_s
 
-            print_var(tmpl, 'NAME',        app['name'])
-            print_var(tmpl, 'SOURCE',      source)
-            print_var(tmpl, 'IMPORT_ID',   id)
-            print_var(tmpl, 'ORIGIN_ID',   '-1')
-            print_var(tmpl, 'TYPE',        app['type'])
-            print_var(tmpl, 'PUBLISHER',   app['publisher'])
-            print_var(tmpl, 'FORMAT',      app['format'])
-            print_var(tmpl, 'DESCRIPTION', app['short_description'])
-            print_var(tmpl, 'VERSION',     incremented_version)
-            print_var(tmpl, 'TAGS',        app['tags'].join(', '))
-            print_var(tmpl, 'REGTIME',     app['creation_time'])
+                app['type'] = 'IMAGE' unless app['type']
 
-            if !app['files'].nil? && !app['files'][0].nil?
-                file = app['files'][0]
-                size = 0
+                print_var(tmpl, 'NAME',        app['name'])
+                print_var(tmpl, 'SOURCE',      source)
+                print_var(tmpl, 'IMPORT_ID',   id)
+                print_var(tmpl, 'ORIGIN_ID',   '-1')
+                print_var(tmpl, 'TYPE',        app['type'])
+                print_var(tmpl, 'PUBLISHER',   app['publisher'])
+                print_var(tmpl, 'FORMAT',      app['format'])
+                print_var(tmpl, 'DESCRIPTION', app['short_description'])
+                print_var(tmpl, 'VERSION',     incremented_version)
+                print_var(tmpl, 'TAGS',        app['tags'].join(', '))
+                print_var(tmpl, 'REGTIME',     app['creation_time'])
 
-                if file['size'].to_i != 0
-                    size = file['size'].to_i / (2**20)
-                end
+                if !app['files'].nil? && !app['files'][0].nil?
+                    file = app['files'][0]
+                    size = 0
 
-                print_var(tmpl, 'SIZE', size)
-                print_var(tmpl, 'MD5',  file['md5'])
-
-                tmpl64 = ''
-                print_var(tmpl64, 'DEV_PREFIX', file['dev_prefix'])
-                print_var(tmpl64, 'DRIVER',     file['driver'])
-                print_var(tmpl64, 'TYPE',       file['type'])
-
-                if !tmpl64.empty?
-                    print_var(tmpl,
-                              'APPTEMPLATE64',
-                              Base64.strict_encode64(tmpl64))
-                end
-            end
-
-            begin
-                if !app['opennebula_template'].nil?
-                    parsed_template = JSON.parse(app['opennebula_template'])
-                    parsed_template["CONTEXT"]["SET_HOSTNAME"] = "$NAME"
-                    parsed_template["CONTEXT"]["PASSWORD"] = "$ROOT_PASSWORD"
-                    parsed_template["CONTEXT"]["ROOT_PASSWORD"] = "$ROOT_PASSWORD"
-                    parsed_template["SCHED_REQUIREMENTS"] = 'CLUSTER=\"KVM\"'
-                    if !parsed_template.key?("USER_INPUTS")
-                      parsed_template["USER_INPUTS"] = Hash.new 
-                      parsed_template["USER_INPUTS"]["ROOT_PASSWORD"] = "O|password|Password for VM root user. Not recommended, try using public keys"
+                    if file['size'].to_i != 0
+                        size = file['size'].to_i / (2**20)
                     end
-                    vmtmpl64 = template_to_str(
-                        parsed_template
-                    )
-                    print_var(tmpl,
-                              'VMTEMPLATE64',
-                              Base64.strict_encode64(vmtmpl64))
-                end
-            rescue StandardError
-                nil
-            end
 
-            appstr << "APP=\"#{Base64.strict_encode64(tmpl)}\"\n"
+                    print_var(tmpl, 'SIZE', size)
+                    print_var(tmpl, 'MD5',  file['md5'])
+
+                    tmpl64 = ''
+                    print_var(tmpl64, 'DEV_PREFIX', file['dev_prefix'])
+                    print_var(tmpl64, 'DRIVER',     file['driver'])
+                    print_var(tmpl64, 'TYPE',       file['type'])
+
+                    if !tmpl64.empty?
+                        print_var(tmpl,
+                                  'APPTEMPLATE64',
+                                  Base64.strict_encode64(tmpl64))
+                    end
+                end
+
+                begin
+                    if !app['opennebula_template'].nil?
+                        parsed_template = JSON.parse(app['opennebula_template'])
+                        parsed_template["CONTEXT"]["SET_HOSTNAME"] = "$NAME"
+                        parsed_template["CONTEXT"]["PASSWORD"] = "$ROOT_PASSWORD"
+                        parsed_template["CONTEXT"]["ROOT_PASSWORD"] = "$ROOT_PASSWORD"
+                        parsed_template["SCHED_REQUIREMENTS"] = 'CLUSTER=\"KVM\"'
+                        if !parsed_template.key?("USER_INPUTS")
+                          parsed_template["USER_INPUTS"] = Hash.new 
+                          parsed_template["USER_INPUTS"]["ROOT_PASSWORD"] = "O|password|Password for VM root user. Not recommended, try using public keys"
+                        end
+                        vmtmpl64 = template_to_str(
+                            parsed_template
+                        )
+                        print_var(tmpl,
+                                  'VMTEMPLATE64',
+                                  Base64.strict_encode64(vmtmpl64))
+                    end
+                rescue StandardError
+                    nil
+                end
+
+                appstr << "APP=\"#{Base64.strict_encode64(tmpl)}\"\n"
+            end
         end
 
         appstr
