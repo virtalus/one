@@ -189,7 +189,7 @@ tabs:
             - 1         # ID
             - 2         # Name
             - 3         # Groups
-            - 4         # Clusters
+            #- 4         # Clusters
             - 5         # Hosts
             - 6         # VNets
             - 7         # Datastores
@@ -534,7 +534,7 @@ tabs:
             - 0         # Checkbox
             - 1         # ID
             - 2         # Name
-            - 3         # Cluster
+            #- 3         # Cluster
             - 4         # RVMs
             #- 5         # Real CPU
             - 6         # Allocated CPU
@@ -588,7 +588,7 @@ tabs:
             - 3         # Group
             - 4         # Name
             - 5         # Capacity
-            - 6         # Cluster
+            #- 6         # Cluster
             #- 7         # Basepath
             #- 8         # TM
             #- 9         # DS
@@ -764,7 +764,7 @@ tabs:
             - 3         # Group
             - 4         # Name
             - 5         # Reservation
-            - 6         # Cluster
+            #- 6         # Cluster
             #- 7         # Bridge
             - 8         # Leases
             #- 9         # VLAN ID
@@ -804,7 +804,7 @@ tabs:
             - 2         # Name
             - 3         # Owner
             - 4         # Group
-            - 6         # Cluster
+            #- 6         # Cluster
             #- 10       # Labels
             #- 11       # Search data
         actions:
