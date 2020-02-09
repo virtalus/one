@@ -357,7 +357,7 @@ tabs:
             - 0        # Checkbox
             - 1        # ID
             - 2        # Name
-            #- 3       # Owner
+            - 3        # Owner
             - 4        # Group
             - 5        # Status
             #- 6       # Used CPU
@@ -458,7 +458,7 @@ tabs:
             - 0         # Checkbox
             - 1         # ID
             - 2         # Name
-            #- 3        # Owner
+            - 3         # Owner
             - 4         # Group
             - 5         # State
             #- 6        # Labels
@@ -483,7 +483,7 @@ tabs:
             - 0         # Checkbox
             - 1         # ID
             - 2         # Name
-            #- 3        # Owner
+            - 3         # Owner
             - 4         # Group
             #- 5        # Labels
             #- 6        # Search data
@@ -768,8 +768,8 @@ tabs:
             - 0         # Checkbox
             - 1         # ID
             - 2         # Name
-            #- 3        # Owner
-            #- 4        # Group
+            - 3        # Owner
+            - 4        # Group
             #- 5        # Reservation
             #- 6        # Cluster
             #- 7        # Bridge
@@ -848,8 +848,8 @@ tabs:
         table_columns:
             - 0         # Checkbox
             - 1         # ID
-            #- 2        # Name
-            #- 3        # Owner
+            - 2         # Name
+            - 3         # Owner
             - 4         # Group
             #- 5        # Labels
             #- 6        # Search data
