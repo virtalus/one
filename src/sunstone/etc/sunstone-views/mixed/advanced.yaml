@@ -355,7 +355,7 @@ tabs:
             - 5       # Status
             #- 6       # Used CPU
             #- 7       # Used Memory
-            - 8       # Host
+            #- 8       # Host
             - 9       # IPs
             #- 10      # Start Time
             - 11      # VNC
