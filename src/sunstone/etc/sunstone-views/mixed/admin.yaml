@@ -18,7 +18,7 @@ enabled_tabs:
     - storage-top-tab
     - datastores-tab
     - images-tab
-    - files-tab
+    #- files-tab
     - marketplaces-tab
     - marketplaceapps-tab
     - network-top-tab
