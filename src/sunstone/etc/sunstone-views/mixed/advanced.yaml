@@ -307,7 +307,7 @@ tabs:
             #- 7         # Search data
         actions:
             VirtualRouterTemplate.refresh: true
-            VirtualRouterTemplate.create_dialog: true
+            VirtualRouterTemplate.create_dialog: false
             VirtualRouterTemplate.update_dialog: true
             VirtualRouterTemplate.instantiate_dialog: true
             VirtualRouterTemplate.rename: true
