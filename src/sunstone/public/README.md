@@ -58,6 +58,21 @@ Scons includes an option to build the minified JS and CSS files.
   scons sunstone=yes
   ```
 
+
+HyperCX dependencies
+=====================
+
+1. Place *All* JS files in *one/src/sunstone/public/hypercx_dependencies/js/*.
+2. Place *All* CS files in *one/src/sunstone/public/hypercx_dependencies/css/*.
+3. HyperCX dependencies will automatically build when build.sh runs, otherwise to build only HyperCX      dependencies run following command in public directory;
+
+  ```
+  grunt --gruntfile ./Gruntfile.js hypercx
+  ```
+4. import css/hypercx.min.css for all CSS files placed under *one/src/sunstone/public/hypercx_dependencies/css*(Regardless of their filenames)
+5. import dist/hypercx.min.js for all JS files placed under *one/src/sunstone/public/hypercx_dependencies/js*(Regardless of their filenames)
+
+
 Install.sh
 ==========
 
