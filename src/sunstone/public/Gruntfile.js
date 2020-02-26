@@ -31,6 +31,30 @@ module.exports = function(grunt) {
         }
       }
     },
+    
+    //HyperCX Tasks
+    uglify: {
+      js:{
+        options:{
+          compress: false,
+          mangle:false
+        },
+        files:{
+          './dist/hypercx.min.js' : './hypercx_dependencies/js/*.js'
+        }
+      }
+    },
+    cssmin: {
+      options: {
+        mergeIntoShorthands: false,
+        roundingPrecision: -1
+      },
+      css: {
+        files: {
+          './css/hypercx.min.css': './hypercx_dependencies/css/*.css'
+        }
+      }
+    },
 
     watch: {
       grunt: {
@@ -236,6 +260,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-requirejs");
 
+  //HyperCX Loads
+  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+
   grunt.registerTask("build", ["sass"]);
   grunt.registerTask("default", ["build","watch"]);
+
+  //HyperCX Tasks
+  grunt.registerTask("hypercx", ["uglify","cssmin"]); 
 };

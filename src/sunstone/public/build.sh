@@ -49,6 +49,9 @@ install_patch() {
 
     grunt --gruntfile ./Gruntfile.js requirejs
 
+    #HyperCX dependencies build
+    grunt --gruntfile ./Gruntfile.js hypercx
+
     mv -f dist/main.js dist/main-dist.js
 
     if [ "$DO_LINK" = "yes" ]; then
