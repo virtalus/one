@@ -633,5 +633,4 @@ define(function(require) {
     $("#SCHED_REQUIREMENTS" + id, context).val(req_string.join(" | "));
     $("#SCHED_DS_REQUIREMENTS" + id, context).val(req_ds_string.join(" | "));
   }
-
 });

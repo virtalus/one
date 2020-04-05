@@ -396,6 +396,7 @@ define(function(require) {
 
   function _submitAdvanced(context) {
     var template = $("textarea#template", context).val();
+
     if (this.action == "create") {
       var vntemplate_json = {vntemplate: { vntemplate_raw: template}};
       Sunstone.runAction("VNTemplate.create", vntemplate_json);
