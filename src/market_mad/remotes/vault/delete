@@ -49,38 +49,40 @@ unset i XPATH_ELEMENTS
 while IFS= read -r -d '' element; do
     XPATH_ELEMENTS[i++]="$element"
 done < <($XPATH     /MARKET_DRIVER_ACTION_DATA/MARKETPLACEAPP/TEMPLATE/IMPORT_ID \
+                    /MARKET_DRIVER_ACTION_DATA/MARKETPLACEAPP/TEMPLATE/IP \
                     /MARKET_DRIVER_ACTION_DATA/MARKETPLACE/TEMPLATE/UUID)
 unset i
 
 SOURCE="${XPATH_ELEMENTS[i++]}"
+IP = "${XPATH_ELEMENTS[i++]}"
 UUID="${XPATH_ELEMENTS[i++]}"
 PUBLIC_DIR="/var/lib/hypercx/vault/${UUID}/"
 
 # ----------------- Delete the app source from public folder -------------------
 DST_PATH="${PUBLIC_DIR}${SOURCE}"
 
-ssh_exec_and_log "192.168.101.2" "[ -f ${DST_PATH}.yaml ] && rm ${DST_PATH}.yaml" \
+ssh_exec_and_log "${IP}" "[ -f ${DST_PATH}.yaml ] && rm ${DST_PATH}.yaml" \
         "Error deleting ${DST_PATH} in ${DST_HOST}"
-if ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}";
+if ssh "oneadmin@${IP}" "test -e ${DST_PATH}";
             then
-                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH} ] && rm ${DST_PATH}" \
+                    ssh_exec_and_log_no_error "${IP}" "[ -f ${DST_PATH} ] && rm ${DST_PATH}" \
 			    "Error deleting template file ${DST_PATH}"
 
 fi
 
-if ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.raw";
+if ssh "oneadmin@${IP}" "test -e ${DST_PATH}.raw";
             then
-                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.raw ] && rm ${DST_PATH}.raw" \
+                    ssh_exec_and_log_no_error "${IP}" "[ -f ${DST_PATH}.raw ] && rm ${DST_PATH}.raw" \
 			    "Error deleting template file ${DST_PATH}"
 
-elif ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.qcow2";
+elif ssh "oneadmin@${IP}" "test -e ${DST_PATH}.qcow2";
             then
-                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.qcow2 ] && rm ${DST_PATH}.qcow2" \
+                    ssh_exec_and_log_no_error "${IP}" "[ -f ${DST_PATH}.qcow2 ] && rm ${DST_PATH}.qcow2" \
 			    "Error deleting template file ${DST_PATH}"
 
-elif ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.qcow";
+elif ssh "oneadmin@${IP}" "test -e ${DST_PATH}.qcow";
             then
-                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.qcow ] && rm ${DST_PATH}.qcow" \
+                    ssh_exec_and_log_no_error "${IP}" "[ -f ${DST_PATH}.qcow ] && rm ${DST_PATH}.qcow" \
 			    "Error deleting template file ${DST_PATH}"
 
 fi
