@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# -------------------------------------------------------------------------- #
+# Copyright 2002-2019, OpenNebula Project, OpenNebula Systems                #
+#                                                                            #
+# Licensed under the Apache License, Version 2.0 (the "License"); you may    #
+# not use this file except in compliance with the License. You may obtain    #
+# a copy of the License at                                                   #
+#                                                                            #
+# http://www.apache.org/licenses/LICENSE-2.0                                 #
+#                                                                            #
+# Unless required by applicable law or agreed to in writing, software        #
+# distributed under the License is distributed on an "AS IS" BASIS,          #
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   #
+# See the License for the specific language governing permissions and        #
+# limitations under the License.                                             #
+# -------------------------------------------------------------------------- #
+
+###############################################################################
+# This script is used to import a file into the marketplace. The source file
+# is an opaque representation of an OpenNebula object, like a image file or a
+# tar.gz with several vm template or flow disk images
+###############################################################################
+
+# -------- Set up the environment to source common tools & conf ------------
+
+if [ -z "${ONE_LOCATION}" ]; then
+    LIB_LOCATION=/usr/lib/one
+else
+    LIB_LOCATION=$ONE_LOCATION/lib
+fi
+
+. $LIB_LOCATION/sh/scripts_common.sh
+
+DRIVER_PATH=$(dirname $0)
+source ${DRIVER_PATH}/../../datastore/libfs.sh
+
+UTILS_PATH="${DRIVER_PATH}/../../datastore"
+
+# -------- Get arguments from OpenNebula core ------------
+
+DRV_ACTION=$1
+ID=$2
+
+XPATH="$UTILS_PATH/xpath.rb -b $DRV_ACTION"
+
+unset i XPATH_ELEMENTS
+
+while IFS= read -r -d '' element; do
+    XPATH_ELEMENTS[i++]="$element"
+done < <($XPATH     /MARKET_DRIVER_ACTION_DATA/MARKETPLACEAPP/TEMPLATE/IMPORT_ID \
+                    /MARKET_DRIVER_ACTION_DATA/MARKETPLACE/TEMPLATE/UUID)
+unset i
+
+SOURCE="${XPATH_ELEMENTS[i++]}"
+UUID="${XPATH_ELEMENTS[i++]}"
+PUBLIC_DIR="/var/lib/hypercx/vault/${UUID}/"
+
+# ----------------- Delete the app source from public folder -------------------
+DST_PATH="${PUBLIC_DIR}${SOURCE}"
+
+ssh_exec_and_log "192.168.101.2" "[ -f ${DST_PATH}.yaml ] && rm ${DST_PATH}.yaml" \
+        "Error deleting ${DST_PATH} in ${DST_HOST}"
+if ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}";
+            then
+                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH} ] && rm ${DST_PATH}" \
+			    "Error deleting template file ${DST_PATH}"
+
+fi
+
+if ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.raw";
+            then
+                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.raw ] && rm ${DST_PATH}.raw" \
+			    "Error deleting template file ${DST_PATH}"
+
+elif ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.qcow2";
+            then
+                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.qcow2 ] && rm ${DST_PATH}.qcow2" \
+			    "Error deleting template file ${DST_PATH}"
+
+elif ssh "oneadmin@192.168.101.2" "test -e ${DST_PATH}.qcow";
+            then
+                    ssh_exec_and_log_no_error "192.168.101.2" "[ -f ${DST_PATH}.qcow ] && rm ${DST_PATH}.qcow" \
+			    "Error deleting template file ${DST_PATH}"
+
+fi

@@ -1,0 +1,156 @@
+#!/usr/bin/env ruby
+
+require 'net/http'
+require 'uri'
+require 'yaml'
+require 'base64'
+require 'rexml/document'
+
+#-------------------------------------------------------------------------------
+#
+#-------------------------------------------------------------------------------
+class VaultMarket
+    #---------------------------------------------------------------------------
+    # Default Configuration parameters for the Driver
+    #---------------------------------------------------------------------------
+    DEFAULTS = {
+        :sizemb => 5120,
+        :fs     => 'ext4',
+        :format => 'raw',
+        :agent  => 'OpenNebula'
+    }
+
+    #---------------------------------------------------------------------------
+    # Configuration varibales
+    #   :url of linuxcontainers market place
+    #   :sizemb default size for container images
+    #   :fs filesystem for the image file
+    #   :format for the image file, qcow2, raw
+    #   :agent for HTTP client
+    #---------------------------------------------------------------------------
+
+    #ONE_MARKET_URL = 'http://mirror.turnkeylinux.org'
+    #AGENT          = 'Market Driver'
+    #VERSION        = File.dirname(__FILE__) + '/../../VERSION'
+    ##VERSION     = "5.6.1"
+
+    def initialize(options = {})
+        @options = DEFAULTS
+        @options.merge!(options)
+ 
+        version_path = File.dirname(__FILE__) + '/../../VERSION'
+ 
+        if File.exists? version_path
+            @options[:agent] = "OpenNebula #{File.read(version_path)}"
+        end
+        #@url   = url || ONE_MARKET_URL
+        #@agent = "OpenNebula #{File.read(VERSION)} (#{AGENT})"
+        ##@agent = "OpenNebula 5.6.1"
+    end
+
+    def get(path)
+
+        # Get proxy params (needed for ruby 1.9.3)
+        http_proxy = ENV['http_proxy'] || ENV['HTTP_PROXY']
+
+        if http_proxy
+            p_uri   = URI(http_proxy)
+            p_host  = p_uri.host
+            p_port  = p_uri.port
+        else
+            p_host  = nil
+            p_port  = nil
+        end
+
+        uri = URI(@options[:url]+path)
+        req = Net::HTTP::Get.new(uri.request_uri)
+        req['User-Agent'] = @agent
+
+        response = Net::HTTP.start(uri.hostname, uri.port, p_host, p_port) {|http|
+            http.request(req)
+        }
+        
+        if response.is_a? Net::HTTPSuccess
+            return 0, response.body
+        else
+            return response.code.to_i, response.msg
+        end
+    end
+
+    def get_appliances()
+        #first_level = '/appliances/'
+        rc, body = get("")
+        if rc != 0
+            return rc, body
+        end
+        appliances = body.scan(%r{a href="([a-z0-9].*.yaml)">})
+        appstr  = ""
+
+        appliances.each { |appliance| 
+            iter_app_name = appliance[0].split(".").first
+            rc, body = get("#{iter_app_name}.yaml")
+            metadata = YAML.load(body)
+            templateExist, body = get("#{iter_app_name}")
+            template = body if templateExist == 0
+            template << "DESCRIPTION = \"#{metadata["description"]}\"" if templateExist == 0
+
+            tmpl = ""
+
+            print_var(tmpl, "NAME",        "#{metadata["name"]}")
+            print_var(tmpl, "SOURCE",      "#{@options[:url]}#{iter_app_name}.#{metadata["driver"]}")
+            print_var(tmpl, "IMPORT_ID",   iter_app_name)
+            print_var(tmpl, "ORIGIN_ID",   "-1")
+            print_var(tmpl, "TYPE",        'IMAGE')
+            print_var(tmpl, "PUBLISHER",   "HyperCX Vault")
+            print_var(tmpl, "FORMAT",      metadata["format"])
+            print_var(tmpl, "DESCRIPTION", metadata["description"])
+            print_var(tmpl, "REGTIME",     metadata["creation_time"])
+            print_var(tmpl, 'SIZE',        metadata["size"])
+
+            tmpl64 = ""
+            print_var(tmpl64, 'DEV_PREFIX', metadata['dev_prefix'])
+            print_var(tmpl64, 'DRIVER',     metadata['driver'])
+            print_var(tmpl64, 'TYPE',       metadata['type'])
+
+            print_var(tmpl, 'APPTEMPLATE64', Base64.strict_encode64(tmpl64))
+
+            print_var(tmpl, 'VMTEMPLATE64', Base64.strict_encode64(template)) if templateExist == 0
+
+            appstr << "APP=\"#{Base64::strict_encode64(tmpl)}\"\n"
+        }
+
+        appstr
+    end
+
+    def app_url(path)
+        "\\\"lxd://#{@options[:url]}#{path}?size=#{@options[:sizemb]}&filesystem=" \
+            "#{@options[:fs]}&format=#{@options[:format]}\\\""
+    end
+
+    def print_var(str, name, val)
+        return if val.nil?
+        return if val.class == String && val.empty?
+
+        str << "#{name}=\"#{val}\"\n"
+    end
+
+end
+
+################################################################################
+# Main Program. Outpust the list of marketplace appliances
+################################################################################
+def set_option(o, d, name, path)
+    o[name] = d.elements[path].text if d.elements[path]
+end
+
+begin
+    drv_message = Base64::decode64(ARGV[0])
+    doc = REXML::Document.new(drv_message).root
+    uuid = doc.elements['MARKETPLACE/TEMPLATE/UUID'].text rescue nil
+    ip = doc.elements['MARKETPLACE/TEMPLATE/IP'].text rescue nil
+    options     = {}
+    options[:url] = "http://#{ip}/#{uuid}/"
+
+    output = VaultMarket.new(options).get_appliances
+    puts  output
+end
