@@ -361,6 +361,7 @@ VAR_DIRS="$VAR_LOCATION/remotes \
           $VAR_LOCATION/remotes/market/s3 \
           $VAR_LOCATION/remotes/market/linuxcontainers \
           $VAR_LOCATION/remotes/market/virtalus \
+          $VAR_LOCATION/remotes/market/vault \
           $VAR_LOCATION/remotes/market/turnkeylinux \
           $VAR_LOCATION/remotes/datastore/iscsi_libvirt \
           $VAR_LOCATION/remotes/auth \
@@ -514,6 +515,7 @@ INSTALL_FILES=(
     MARKETPLACE_DRIVER_S3_SCRIPTS:$VAR_LOCATION/remotes/market/s3
     MARKETPLACE_DRIVER_LXC_SCRIPTS:$VAR_LOCATION/remotes/market/linuxcontainers
     MARKETPLACE_DRIVER_VIRTALUS_SCRIPTS:$VAR_LOCATION/remotes/market/virtalus
+    MARKETPLACE_DRIVER_VAULT_SCRIPTS:$VAR_LOCATION/remotes/market/vault
     MARKETPLACE_DRIVER_TK_SCRIPTS:$VAR_LOCATION/remotes/market/turnkeylinux
     IPAM_DRIVER_DUMMY_SCRIPTS:$VAR_LOCATION/remotes/ipam/dummy
     IPAM_DRIVER_PACKET_SCRIPTS:$VAR_LOCATION/remotes/ipam/packet
@@ -1540,6 +1542,10 @@ MARKETPLACE_DRIVER_LXC_SCRIPTS="src/market_mad/remotes/linuxcontainers/import \
 MARKETPLACE_DRIVER_VIRTALUS_SCRIPTS="src/market_mad/remotes/virtalus/import \
             src/market_mad/remotes/virtalus/delete \
             src/market_mad/remotes/virtalus/monitor"
+
+MARKETPLACE_DRIVER_VAULT_SCRIPTS="src/market_mad/remotes/vault/import \
+            src/market_mad/remotes/vault/delete \
+            src/market_mad/remotes/vault/monitor"
 
 MARKETPLACE_DRIVER_TK_SCRIPTS="src/market_mad/remotes/turnkeylinux/import \
             src/market_mad/remotes/turnkeylinux/delete \
