@@ -86,7 +86,7 @@ tabs:
             #VM.disk_snapshot_revert: false
             #VM.disk_snapshot_rename: false
             #VM.disk_snapshot_delete: false
-            VM.save_as_template: true
+            VM.save_as_template: false
             VM.lockU: true
             VM.unlock: true
         dashboard:
