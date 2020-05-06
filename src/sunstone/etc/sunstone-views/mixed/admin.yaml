@@ -410,8 +410,8 @@ tabs:
             #VM.disk_snapshot_revert: true
             #VM.disk_snapshot_rename: true
             #VM.disk_snapshot_delete: true
-            VM.resched: true
-            VM.unresched: true
+            VM.resched: false
+            VM.unresched: false
             VM.save_as_template: true
             VM.updateconf: true
             VM.lockU: true
@@ -452,8 +452,8 @@ tabs:
                 RoleVM.undeploy_hard: true
                 RoleVM.terminate: true
                 RoleVM.terminate_hard: true
-                RoleVM.resched: true
-                RoleVM.unresched: true
+                RoleVM.resched: false
+                RoleVM.unresched: false
                 RoleVM.recover: true
         table_columns:
             - 0         # Checkbox
