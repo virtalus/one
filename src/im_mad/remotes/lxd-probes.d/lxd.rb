@@ -33,14 +33,17 @@ nodeinfo_text = `virsh -c qemu:///system nodeinfo`
 exit(-1) if $?.exitstatus != 0
 
 nodeinfo_text.split(/\n/).each{|line|
-    if     line =~ /^CPU\(s\)/
-        $total_cpu   = line.split(':')[1].strip.to_i * 100
+    if     line.match('^CPU\(s\)')
+        $total_threads   = line.split(":")[1].strip.to_i * 100
+    elsif  line.match('^Thread\(s\) per core')
+        $threads_per_core   = line.split(":")[1].strip.to_i
     elsif  line =~ /^CPU frequency/
         $cpu_speed   = line.split(':')[1].strip.split(' ')[0]
     elsif  line =~ /^Memory size/
         $total_memory = line.split(':')[1].strip.split(' ')[0]
     end
 }
+$total_cpu = $total_threads / $threads_per_core
 
 ######
 #  CPU
@@ -86,6 +89,7 @@ end
 print_info("HYPERVISOR","lxd")
 
 print_info("TOTALCPU",$total_cpu)
+print_info("THREADS",$threads_per_core)
 print_info("CPUSPEED",$cpu_speed)
 
 print_info("TOTALMEMORY",$total_memory)
