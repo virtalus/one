@@ -52,7 +52,7 @@ tabs:
             vm_template_tab: false
             vm_log_tab: true
         provision_tabs:
-            flows: true
+            flows: false
             templates: false
         actions: &provisionactions
             # In the cloud view, delete is the equivalent
