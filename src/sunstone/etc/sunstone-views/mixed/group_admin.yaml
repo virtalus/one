@@ -265,7 +265,7 @@ tabs:
             network: true
             os_booting: true
             features: true
-            input_output: false
+            input_output: true
             context: true
             actions: true
             scheduling: true
@@ -333,7 +333,7 @@ tabs:
             network: true
             os_booting: true
             features: true
-            input_output: false
+            input_output: true
             context: true
             scheduling: true
             hybrid: false
