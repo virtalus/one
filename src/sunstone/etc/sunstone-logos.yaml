@@ -17,3 +17,104 @@
 - { 'name': "Windows XP/2003", 'path': "images/logos/windowsxp.png"}
 - { 'name': "Windows 8/2012",  'path': "images/logos/windows8.png"}
 - { 'name': "Windows 10/2016", 'path': "images/logos/windows8.png"}
+- { 'name': "Ansible",         'path': "images/logos/appliance-ansible.jpg"}
+- { 'name': "Asp Net Apache",  'path': "images/logos/appliance-asp-net-apache.jpg"}
+- { 'name': "Avideo",          'path': "images/logos/appliance-avideo.jpg"}
+- { 'name': "B2Evolution",     'path': "images/logos/appliance-b2evolution.jpg"}
+- { 'name': "Bugzilla",        'path': "images/logos/appliance-bugzilla.jpg"}
+- { 'name': "Cakephp",         'path': "images/logos/appliance-cakephp.jpg"}
+- { 'name': "Canvas",          'path': "images/logos/appliance-canvas.jpg"}
+- { 'name': "Codeigniter",     'path': "images/logos/appliance-codeigniter.jpg"}
+- { 'name': "Collabtive",      'path': "images/logos/appliance-collabtive.jpg"}
+- { 'name': "Concrete5",       'path': "images/logos/appliance-concrete5.jpg"}
+- { 'name': "Core",            'path': "images/logos/appliance-core.jpg"}
+- { 'name': "Couchdb",         'path': "images/logos/appliance-couchdb.jpg"}
+- { 'name': "Django",          'path': "images/logos/appliance-django.jpg"}
+- { 'name': "Dokuwiki",        'path': "images/logos/appliance-dokuwiki.jpg"}
+- { 'name': "Domain Controller",  'path': "images/logos/appliance-domain-controller.jpg"}
+- { 'name': "Drupal",          'path': "images/logos/appliance-drupal.jpg"}
+- { 'name': "Drupal 8",        'path': "images/logos/appliance-drupal8.jpg"}
+- { 'name': "e107",            'path': "images/logos/appliance-e107.jpg"}
+- { 'name': "Elgg",            'path': "images/logos/appliance-elgg.jpg"}
+- { 'name': "EspoCRM",         'path': "images/logos/appliance-espocrm.jpg"}
+- { 'name': "Ezpublish",       'path': "images/logos/appliance-ezpublish.jpg"}
+- { 'name': "File Server",     'path': "images/logos/appliance-file-server.jpg"}
+- { 'name': "Foodsoft",        'path': "images/logos/appliance-foodsoft.jpg"}
+- { 'name': "Gallery",         'path': "images/logos/appliance-gallery.jpg"}
+- { 'name': "Ghost",           'path': "images/logos/appliance-ghost.jpg"}
+- { 'name': "Gitea",           'path': "images/logos/appliance-gitea.jpg"}
+- { 'name': "Gitlab",          'path': "images/logos/appliance-gitlab.jpg"}
+- { 'name': "GNU Social",      'path': "images/logos/appliance-gnusocial.jpg"}
+- { 'name': "Icescrum",        'path': "images/logos/appliance-icescrum.jpg"}
+- { 'name': "Jenkins",         'path': "images/logos/appliance-jenkins.jpg"}
+- { 'name': "Joomla 3",        'path': "images/logos/appliance-joomla3.jpg"}
+- { 'name': "Kliqqi",          'path': "images/logos/appliance-kliqqi.jpg"}
+- { 'name': "LAMP",            'path': "images/logos/appliance-lamp.jpg"}
+- { 'name': "LAPP",            'path': "images/logos/appliance-lapp.jpg"}
+- { 'name': "Laravel",         'path': "images/logos/appliance-laravel.jpg"}
+- { 'name': "Lighttpd PHP Fastcgi",    'path': "images/logos/appliance-lighttpd-php-fastcgi.jpg"}
+- { 'name': "Limesurvey",      'path': "images/logos/appliance-limesurvey.jpg"}
+- { 'name': "Magento",         'path': "images/logos/appliance-magento.jpg"}
+- { 'name': "Mahara",          'path': "images/logos/appliance-mahara.jpg"}
+- { 'name': "Mambo",           'path': "images/logos/appliance-mambo.jpg"}
+- { 'name': "Mantis",          'path': "images/logos/appliance-mantis.jpg"}
+- { 'name': "MariaDB",         'path': "images/logos/appliance-mariadb.jpg"}
+- { 'name': "Matomo",          'path': "images/logos/appliance-matomo.jpg"}
+- { 'name': "Mattermost",      'path': "images/logos/appliance-mattermost.jpg"}
+- { 'name': "Media Server",    'path': "images/logos/appliance-mediaserver.jpg"}
+- { 'name': "Media Wiki",      'path': "images/logos/appliance-mediawiki.jpg"}
+- { 'name': "Mibew",           'path': "images/logos/appliance-mibew.jpg"}
+- { 'name': "Moinmoin",        'path': "images/logos/appliance-moinmoin.jpg"}
+- { 'name': "Mongodb",         'path': "images/logos/appliance-mongodb.jpg"}
+- { 'name': "Moodle",          'path': "images/logos/appliance-moodle.jpg"}
+- { 'name': "MySQL",           'path': "images/logos/appliance-mysql.jpg"}
+- { 'name': "Nginx",           'path': "images/logos/appliance-nginx.png"}
+- { 'name': "Nginx PHP Fastcgi",   'path': "images/logos/appliance-nginx-php-fastcgi.jpg"}
+- { 'name': "Nodejs",          'path': "images/logos/appliance-nodejs.jpg"}
+- { 'name': "Observium",       'path': "images/logos/appliance-observium.jpg"}
+- { 'name': "Odoo",            'path': "images/logos/appliance-odoo.jpg"}
+- { 'name': "Omeka",           'path': "images/logos/appliance-omeka.jpg"}
+- { 'name': "Opencart",        'path': "images/logos/appliance-opencart.jpg"}
+- { 'name': "Open ldap",       'path': "images/logos/appliance-openldap.jpg"}
+- { 'name': "Open VPN",        'path': "images/logos/appliance-openvpn.jpg"}
+- { 'name': "Orangehrm",       'path': "images/logos/appliance-orangehrm.jpg"}
+- { 'name': "Oscommerce",      'path': "images/logos/appliance-oscommerce.jpg"}
+- { 'name': "OTRS",            'path': "images/logos/appliance-otrs.jpg"}
+- { 'name': "Owncloud",        'path': "images/logos/appliance-owncloud.jpg"}
+- { 'name': "PHPbb",           'path': "images/logos/appliance-phpbb.jpg"}
+- { 'name': "PHP FPM",         'path': "images/logos/appliance-php-fpm.jpg"}
+- { 'name': "PHP List",        'path': "images/logos/appliance-phplist.jpg"}
+- { 'name': "Plone",           'path': "images/logos/appliance-plone.jpg"}
+- { 'name': "PostgreSQL",      'path': "images/logos/appliance-postgresql.jpg"}
+- { 'name': "Prestashop",      'path': "images/logos/appliance-prestashop.jpg"}
+- { 'name': "Processmaker",    'path': "images/logos/appliance-processmaker.jpg"}
+- { 'name': "Punbb",           'path': "images/logos/appliance-punbb.jpg"}
+- { 'name': "Rails",           'path': "images/logos/appliance-rails.jpg"}
+- { 'name': "Redis",           'path': "images/logos/appliance-redis.jpg"}
+- { 'name': "Redmine",         'path': "images/logos/appliance-redmine.jpg"}
+- { 'name': "Revision Control",    'path': "images/logos/appliance-revision-control.jpg"}
+- { 'name': "Roundup",         'path': "images/logos/appliance-roundup.jpg"}
+- { 'name': "Sahana Eden",     'path': "images/logos/appliance-sahana-eden.jpg"}
+- { 'name': "Silverstripe",    'path': "images/logos/appliance-silverstripe.jpg"}
+- { 'name': "Simple Machines", 'path': "images/logos/appliance-simplemachines.jpg"}
+- { 'name': "Sitracker",       'path': "images/logos/appliance-sitracker.jpg"}
+- { 'name': "Suite CRM",       'path': "images/logos/appliance-suitecrm.jpg"}
+- { 'name': "Symfony",         'path': "images/logos/appliance-symfony.jpg"}
+- { 'name': "Syncthing",       'path': "images/logos/appliance-syncthing.jpg"}
+- { 'name': "Tkldev",          'path': "images/logos/appliance-tkldev.png"}
+- { 'name': "Tomcat",          'path': "images/logos/appliance-tomcat.jpg"}
+- { 'name': "Tomcat Apache",   'path': "images/logos/appliance-tomcat-apache.jpg"}
+- { 'name': "Torrent Server",  'path': "images/logos/appliance-torrentserver.jpg"}
+- { 'name': "Trac",            'path': "images/logos/appliance-trac.jpg"}
+- { 'name': "Tracks",          'path': "images/logos/appliance-tracks.jpg"}
+- { 'name': "Twiki",           'path': "images/logos/appliance-twiki.jpg"}
+- { 'name': "Typo 3",          'path': "images/logos/appliance-typo3.jpg"}
+- { 'name': "Ushahidi",        'path': "images/logos/appliance-ushahidi.jpg"}
+- { 'name': "Vanilla",         'path': "images/logos/appliance-vanilla.png"}
+- { 'name': "Web2py",          'path': "images/logos/appliance-web2py.jpg"}
+- { 'name': "Wordpress",       'path': "images/logos/appliance-wordpress.jpg"}
+- { 'name': "Xoops",           'path': "images/logos/appliance-xoops.jpg"}
+- { 'name': "Yii Framework",   'path': "images/logos/appliance-yiiframework.jpg"}
+- { 'name': "Zencart",         'path': "images/logos/appliance-zencart.jpg"}
+- { 'name': "Zoneminder",      'path': "images/logos/appliance-zoneminder.jpg"}
+- { 'name': "Zurmo",           'path': "images/logos/appliance-zurmo.png"}
