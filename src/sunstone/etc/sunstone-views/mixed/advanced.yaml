@@ -25,7 +25,7 @@ enabled_tabs:
     - vnets-tab
     - vnets-templates-tab
     - vnets-topology-tab
-    #- secgroups-tab
+    - secgroups-tab
     #- infrastructure-top-tab
     #- clusters-tab
     #- hosts-tab
@@ -45,7 +45,7 @@ features:
 
     # Allows to change the security groups for each network interface
     # on the VM creation dialog
-    secgroups: false
+    secgroups: true
 
     # True to hide the CPU setting in the VM creation dialog
     instantiate_hide_cpu: false
@@ -72,7 +72,7 @@ features:
     show_context_instantiate_vnet: true
 
     # True to show context section to instantiate Network
-    show_security_instantiate_vnet: false
+    show_security_instantiate_vnet: true
 
     # True to show an input to specify the the VMs and Template path/folder where a vCenter VM will
     # deployed to
@@ -836,8 +836,8 @@ tabs:
             NetworkTopology.openVMs: true
     secgroups-tab:
         panel_tabs:
-            security_group_info_tab: false
-            security_group_vms_tab: false
+            security_group_info_tab: true
+            security_group_vms_tab: true
         table_columns:
             - 0         # Checkbox
             - 1         # ID
