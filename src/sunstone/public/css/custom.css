@@ -18,12 +18,12 @@
 /*-----APP----*/
 
 body{
-	padding:0;margin:0;
-	font-family:"Lato","Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
-	font-weight:300;
-	line-height:1.5;
-	color:#0a0a0a;
-	background:#fefefe;
+        padding:0;margin:0;
+        font-family:"Lato","Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+        font-weight:300;
+        line-height:1.5;
+        color:#0a0a0a;
+        background:#ffffff;
 }
 
 h1,
@@ -61,16 +61,31 @@ fieldset legend {
     margin-right: 0.2rem;
     box-shadow: 0 2px 5px 1px rgba(0,0,0,0.1);
     font-size: 1rem;
-    background-color: #4DBBD3;
+    background-color: #404040;
     color: #fefefe;
+}
+.button:hover,
+.button:focus{
+background-color:#929292;
+color:#fefefe
 }
 .button.secondary {
-    background-color: #8a8a8a;
+    background-color: #666666;
     color: #fefefe;
 }
+.button.secondary:hover,
+.button.secondary:focus{
+background-color:#929292;
+color:#fefefe
+}
 .button.success {
-    background-color: #3adb76;
+    background-color: #E88D21;
     color: #fefefe;
+}
+.button.success:hover,
+.button.success:focus{
+background-color:#FABB70;
+color:#fefefe
 }
 .button.alert {
     background-color: #ec5840;
@@ -209,3 +224,22 @@ meter {
   color: #8a8a8a;
   padding: 0.6em;
 }
+
+/**** Other ******/
+a{
+color:#FF8A00;
+text-decoration:none;
+line-height:inherit;
+cursor:pointer
+}
+a:hover,
+a:focus{
+color:#FABB70
+}
+.tabs.vertical .tabs-title.is-active{
+border-right:.1538461538rem solid #E88D21
+}
+.tabs:not(.vertical) .tabs-title.is-active{
+border-bottom:.1538461538rem solid #E88D21
+}
+
